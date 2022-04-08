@@ -46,7 +46,7 @@ public class LossOfCareHealthRecordTest {
 
     // Parse out testPrivatePayer's Copay.
     Person person = new Person(0L);
-    person.setProvider(EncounterType.WELLNESS, new Provider());
+    person.preferredProviders.forceRelationship(EncounterType.WELLNESS, null, new Provider());
     person.attributes.put(Person.INCOME, 1);
     Encounter encounter = person.encounterStart(time, EncounterType.WELLNESS);
     testPrivatePayerCopay = testPrivatePayer.determineCopay(encounter);
@@ -65,7 +65,7 @@ public class LossOfCareHealthRecordTest {
 
     Person person = new Person(0L);
     person.coverage.setPayerAtTime(time, Payer.noInsurance);
-    person.setProvider(EncounterType.WELLNESS, new Provider());
+    person.preferredProviders.forceRelationship(EncounterType.WELLNESS, null, new Provider());
     Code code = new Code("SNOMED-CT","705129","Fake Code");
     // Set person's income to be $1 lower than the cost of encounter
     person.attributes.put(Person.INCOME, (int) defaultEncounterCost - 1);
@@ -93,7 +93,7 @@ public class LossOfCareHealthRecordTest {
   public void personRunsOutOfIncomeDueToCopay() {
     Person person = new Person(0L);
     person.coverage.setPayerAtTime(time, testPrivatePayer);
-    person.setProvider(EncounterType.WELLNESS, new Provider());
+    person.preferredProviders.forceRelationship(EncounterType.WELLNESS, null, new Provider());
     Code code = new Code("SNOMED-CT","705129","Fake Code");
 
     // Determine income
@@ -143,7 +143,7 @@ public class LossOfCareHealthRecordTest {
     person.attributes.put(Person.BIRTHDATE, time);
     person.attributes.put(Person.GENDER, "F");
     person.coverage.setPayerAtTime(time, testPrivatePayer);
-    person.setProvider(EncounterType.WELLNESS, new Provider());
+    person.preferredProviders.forceRelationship(EncounterType.WELLNESS, null, new Provider());
     Code code = new Code("SNOMED-CT","705129","Fake Code");
     // Set person's income to be $1 lower than the cost of 8 monthly premiums.
     person.attributes.put(Person.INCOME, (int) (testPrivatePayer.getMonthlyPremium() * 8) - 1);
@@ -175,7 +175,7 @@ public class LossOfCareHealthRecordTest {
 
     Person person = new Person(0L);
     person.coverage.setPayerAtTime(time, Payer.noInsurance);
-    person.setProvider(EncounterType.WELLNESS, new Provider());
+    person.preferredProviders.forceRelationship(EncounterType.WELLNESS, null, new Provider());
     Code code = new Code("SNOMED-CT","705129","Fake Code");
     // Set person's income to be $1 lower than the cost of an encounter.
     person.attributes.put(Person.INCOME, (int) defaultEncounterCost - 1);
